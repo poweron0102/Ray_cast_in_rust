@@ -1,0 +1,19 @@
+[package]
+name = "Rust"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+#game-loop = "*"
+#piston_window = "*"
+#piston = "*"
+#piston-button_controller = "*"
+#glutin = "*"
+#glium = "*"
+#ggez = "*"
+#macroquad = "*"
+#mouse-rs = "*"
+#mouse = "*"
+macroquad = { path = "../macroquad"}
