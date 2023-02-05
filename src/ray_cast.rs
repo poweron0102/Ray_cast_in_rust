@@ -6,7 +6,9 @@ use macroquad::prelude::{draw_rectangle, screen_width, vec2};
 use macroquad::prelude::collections::storage::get;
 use macroquad::shapes::{draw_circle, draw_line};
 use macroquad::window::screen_height;
-use crate::{_3PI2, Tile_size, MapStruct, normalize_angle, PI2, Player, Tile};
+use crate::{_3PI2, PI2};
+use crate::mine_map::{Tile_size, MapStruct, Tile};
+use crate::player::{normalize_angle, Player};
 
 const FOV:f32 = PI/3.0;
 const FOV2:f32 = FOV / 2.0;
@@ -126,7 +128,7 @@ impl RayCast {
                 size = distV;
             }
 
-            self.rays.push(Ray{ position: point, size });
+            self.rays.push(Ray{ position: point, size: f32::cos(player.angle - angle_ray) * size });
             angle_ray += angle_per_cont;
             angle_ray = normalize_angle(angle_ray);
             //draw_circle(ray_posiH.x,ray_posiH.y, 9.0,DARKBROWN);
