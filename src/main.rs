@@ -2,16 +2,12 @@ mod ray_cast;
 mod mine_map;
 mod player;
 
-//use std::fs::read;
-//use std::thread::current;
 use macroquad::prelude::*;
-//use mouse_rs::{types::keys::Keys, Mouse};
 
 
 use std::f32::consts::PI;
 use crate::mine_map::MapStruct;
 use crate::player::Player;
-//use crate::mine_map::MapStruct;
 use crate::ray_cast::RayCast;
 
 const PI2:f32 = PI/2.0;
