@@ -32,7 +32,7 @@ impl RayCast {
 
     fn get_rays_size(&mut self, player: &Player, map: &MapStruct) {
         let angle_start = normalize_angle(player.angle - FOV2);
-        let angle_end = normalize_angle(player.angle + FOV2);
+        //let angle_end = normalize_angle(player.angle + FOV2);
         let angle_per_cont = normalize_angle(FOV / screen_width());
         let playerX = player.locate.x;
         let playerY = player.locate.y;

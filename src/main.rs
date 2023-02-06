@@ -38,6 +38,7 @@ async fn main() {
         //player.draw();
         //ray_cast.draw_rays(&player, &map);
         ray_cast.draw(&player, &map);
+        map.mine_map_draw();
 
         fps_text = format!("FPS: {}", get_fps());
         draw_text(&fps_text, 20.0, 20.0, 23.0, YELLOW);

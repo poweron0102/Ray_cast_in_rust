@@ -48,22 +48,6 @@ impl Player {
         }
     }
 
-    pub fn draw(&self) {
-        draw_circle(self.locate.x,
-                    self.locate.y,
-                    16.0,
-                    GREEN
-        );
-
-        let forward = self.forward_pont(16.0);
-        draw_line(self.locate.x,
-                  self.locate.y,
-                  forward.x,
-                  forward.y,
-                  4.0,
-                  PINK
-        );
-    }
 
     pub fn keyboard(&mut self, map:&MapStruct) {
         //-=-=-=-=-=-=-=-=- Keyboard -=-=-=-=-=-=-=-=-=-=-=-
@@ -114,5 +98,22 @@ impl Player {
         self.angle -= mouse_delta_position().x * MOUSE_SEN;
         self.angle = normalize_angle(self.angle);
         //keep_mouse_centered();
+    }
+
+    pub fn draw(&self) {
+        draw_circle(self.locate.x,
+                    self.locate.y,
+                    16.0,
+                    GREEN
+        );
+
+        let forward = self.forward_pont(16.0);
+        draw_line(self.locate.x,
+                  self.locate.y,
+                  forward.x,
+                  forward.y,
+                  4.0,
+                  PINK
+        );
     }
 }
