@@ -47,6 +47,9 @@ impl MapStruct {
     }
 
     pub fn tile_in_position(&self, position: Vec2) -> &Tile {
+        if position.x < 0.0 || position.y < 0.0 {
+            return &T0
+        }
         let x_in_map = (position.x / Tile_size) as usize;
         let y_in_map = (position.y / Tile_size) as usize;
         if self.map.len() <= y_in_map {
