@@ -119,6 +119,16 @@ impl MapStruct {
         }
     }
 
+    pub fn to_mine_map(&self, point: Vec2) -> Vec2 {
+        let mine_map_size = vec2((self.map[0].len() as f32) * MINE_MAP_ZOON,
+                                 (self.map.len() as f32) * MINE_MAP_ZOON);
+        let distance = vec2(20.0, 20.0);
+
+        Vec2{ x: (point.x * MINE_MAP_ZOON / Tile_size) + distance.x,
+              y: (screen_height() - mine_map_size.y - distance.y) + (point.y * MINE_MAP_ZOON / Tile_size)
+        }
+    }
+
     pub fn mine_map_draw(&self) {
         let mine_map_size = vec2((self.map[0].len() as f32) * MINE_MAP_ZOON,
                              (self.map.len() as f32) * MINE_MAP_ZOON);

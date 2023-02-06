@@ -116,4 +116,22 @@ impl Player {
                   PINK
         );
     }
+
+    pub fn mine_player_draw(&self, map: &MapStruct) {
+        let mine_locale = map.to_mine_map(self.locate);
+        draw_circle(mine_locale.x,
+                    mine_locale.y,
+                    4.0,
+                    GREEN
+        );
+
+        let forward = map.to_mine_map(self.forward_pont(16.0));
+        draw_line(mine_locale.x,
+                  mine_locale.y,
+                  forward.x,
+                  forward.y,
+                  2.0,
+                  PINK
+        );
+    }
 }

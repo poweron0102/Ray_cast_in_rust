@@ -31,6 +31,7 @@ impl RayCast {
     }
 
     fn get_rays_size(&mut self, player: &Player, map: &MapStruct) {
+        self.rays = vec![];
         let angle_start = normalize_angle(player.angle - FOV2);
         //let angle_end = normalize_angle(player.angle + FOV2);
         let angle_per_cont = normalize_angle(FOV / screen_width());
@@ -147,7 +148,6 @@ impl RayCast {
                       1.0,
                       BLUE)
         }
-        self.rays = vec![]
     }
 
     pub fn draw(&mut self, player: &Player, map: &MapStruct) {
@@ -165,6 +165,5 @@ impl RayCast {
                            map.tile_in_position(ray.position).color);
 
         }
-        self.rays = vec![]
     }
 }
