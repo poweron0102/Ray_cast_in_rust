@@ -28,7 +28,8 @@ pub struct Player {
     pub speed: f32,
     pub angle:f32,
     pub size:f32,
-    pub is_map_open:bool
+    pub is_map_open:bool,
+    pub show_fps:bool
 }
 impl Player {
     pub fn new() -> Player {
@@ -37,7 +38,8 @@ impl Player {
             speed: 300.0,
             angle: 0.0,
             size: 15.0,
-            is_map_open: false
+            is_map_open: false,
+            show_fps: false,
         }
     }
 
@@ -50,7 +52,7 @@ impl Player {
 
 
     pub fn keyboard(&mut self, map:&MapStruct) {
-        //-=-=-=-=-=-=-=-=- Keyboard -=-=-=-=-=-=-=-=-=-=-=-
+        //-=-=-=-=-=-=-=-=- Keyboard Movimento-=-=-=-=-=-=-=-=-=-=-=-
         let relative_speed = self.speed * get_frame_time();
         let mut delta = self.locate;
 
@@ -91,7 +93,13 @@ impl Player {
             if !map.tile_in_position(delta).is_wall { self.locate = delta };
         }
         //println!("A posição do jogador é: {:?}", delta);
-        //-=-=-=-=-=-=-=-=- Keyboard -=-=-=-=-=-=-=-=-=-=-=-
+        //-=-=-=-=-=-=-=-=- Keyboard Movimento-=-=-=-=-=-=-=-=-=-=-=-
+        if is_key_released(KeyCode::M) {
+            self.is_map_open = !self.is_map_open;
+        }
+        if is_key_released(KeyCode::P) {
+            self.show_fps = !self.show_fps;
+        }
     }
 
     pub fn mouse(&mut self) {
