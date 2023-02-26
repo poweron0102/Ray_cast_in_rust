@@ -24,7 +24,7 @@ struct Ray {
 }
 
 impl RayCast {
-    pub fn new <'a> (player: &'a Player, map: &'a MapStruct) -> RayCast {
+    pub fn new () -> RayCast {
         RayCast {
             rays: vec![]
         }

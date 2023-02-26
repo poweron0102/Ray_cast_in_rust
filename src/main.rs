@@ -1,6 +1,7 @@
 mod ray_cast;
 mod mine_map;
 mod player;
+mod in_game;
 
 use macroquad::prelude::*;
 
@@ -21,6 +22,8 @@ const _3PI2:f32 = 3.0 * PI / 2.0;
     (delta, current_position)
 }*/
 
+
+
 #[macroquad::main("Ray cast")]
 async fn main() {
     //set_cursor_grab(true);
@@ -29,7 +32,7 @@ async fn main() {
 
     let mut map = MapStruct::new(0);
     let mut player = Player::new();
-    let mut ray_cast = RayCast::new(&player, &map);
+    let mut ray_cast = RayCast::new();
     loop {
         player.mouse();
         player.keyboard(&map);
