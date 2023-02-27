@@ -7,8 +7,8 @@ use macroquad::prelude::collections::storage::get;
 use macroquad::shapes::{draw_circle, draw_line};
 use macroquad::window::screen_height;
 use crate::{_3PI2, PI2};
-use crate::mine_map::{Tile_size, MapStruct, Tile};
-use crate::player::{normalize_angle, Player};
+use crate::in_game::mine_map::{Tile_size, MapStruct, Tile};
+use crate::in_game::player::{normalize_angle, Player};
 
 const FOV:f32 = PI/3.0;
 const FOV2:f32 = FOV / 2.0;

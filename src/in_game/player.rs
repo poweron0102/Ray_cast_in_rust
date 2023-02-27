@@ -1,4 +1,4 @@
-use crate::mine_map::*;
+use crate::in_game::mine_map::*;
 use crate::*;
 
 

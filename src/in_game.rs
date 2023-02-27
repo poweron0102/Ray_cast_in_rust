@@ -1,10 +1,13 @@
+mod mine_map;
+mod player;
+mod ray_cast;
+
 use macroquad::prelude::*;
 
-
 use std::f32::consts::PI;
-use crate::mine_map::MapStruct;
-use crate::player::Player;
-use crate::ray_cast::RayCast;
+use crate::in_game::mine_map::MapStruct;
+use crate::in_game::player::Player;
+use crate::in_game::ray_cast::RayCast;
 
 pub struct In_game {
     map: MapStruct,
@@ -25,7 +28,7 @@ impl In_game {
         self.player.keyboard(&self.map);
     }
 
-    pub fn drow(&mut self) {
+    pub fn draw(&mut self) {
         //self.map.draw();
         //self.player.draw();
         //self.ray_cast.draw_rays(&player, &map);
