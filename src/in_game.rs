@@ -3,6 +3,8 @@ mod player;
 mod ray_cast;
 
 use macroquad::prelude::*;
+//use egui;
+//use egui_macroquad;
 
 use std::f32::consts::PI;
 use crate::in_game::mine_map::MapStruct;
@@ -12,7 +14,7 @@ use crate::in_game::ray_cast::RayCast;
 pub struct In_game {
     map: MapStruct,
     player: Player,
-    ray_cast: RayCast
+    ray_cast: RayCast,
 }
 impl In_game {
     pub fn new(map_id: i32) -> In_game {
@@ -40,8 +42,7 @@ impl In_game {
         }
 
         if self.player.show_fps {
-            let fps_text = format!("FPS: {}", get_fps());
-            draw_text(&fps_text, 20.0, 20.0, 23.0, YELLOW);
+            draw_text(&*format!("FPS: {}", get_fps()), 20.0, 20.0, 23.0, YELLOW);
         }
     }
 }

@@ -26,10 +26,11 @@ pub fn normalize_angle(angle: f32) -> f32 {
 pub struct Player {
     pub locate: Vec2,
     pub speed: f32,
-    pub angle:f32,
-    pub size:f32,
-    pub is_map_open:bool,
-    pub show_fps:bool
+    pub angle: f32,
+    pub size: f32,
+    pub is_map_open: bool,
+    pub show_fps: bool,
+    pub show_menu: bool
 }
 impl Player {
     pub fn new() -> Player {
@@ -37,9 +38,10 @@ impl Player {
             locate: vec2(50.0, 50.0),
             speed: 300.0,
             angle: 0.0,
-            size: 15.0,
+            size:  15.0,
             is_map_open: false,
             show_fps: false,
+            show_menu: false,
         }
     }
 
@@ -99,6 +101,9 @@ impl Player {
         }
         if is_key_released(KeyCode::P) {
             self.show_fps = !self.show_fps;
+        }
+        if is_key_released(KeyCode::E) {
+            self.show_menu = !self.show_menu;
         }
     }
 

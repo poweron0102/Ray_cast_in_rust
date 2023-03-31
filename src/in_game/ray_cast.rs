@@ -42,97 +42,97 @@ impl RayCast {
         let mut angle_ray = angle_start;
         for cont in 0..(screen_width() as usize) {
             // Calc horizontal -=-=-=-=-=-=-=--=-=-=-=-
-            let ray_posiH:Vec2;
+            let ray_posi_h:Vec2;
             {
                 let aTan:f32 = -1.0 / (f32::tan(angle_ray) + 0.000001);
-                let mut rayX: f32;
-                let mut rayY: f32;
-                let mut offsetX: f32 = 0.0;
-                let mut offsetY: f32 = 0.0;
+                let mut ray_x: f32;
+                let mut ray_y: f32;
+                let mut offset_x: f32 = 0.0;
+                let mut offset_y: f32 = 0.0;
                 let mut rendist:usize = 0;
 
                 if angle_ray > PI { // loking up
-                    rayY = (((playerY / Tile_size) as i32) as f32) * Tile_size - 0.0001;
-                    rayX = playerX + ((playerY - rayY) * aTan);
-                    offsetY = -Tile_size;
-                    offsetX = -offsetY * aTan;
+                    ray_y = (((playerY / Tile_size) as i32) as f32) * Tile_size - 0.0001;
+                    ray_x = playerX + ((playerY - ray_y) * aTan);
+                    offset_y = -Tile_size;
+                    offset_x = -offset_y * aTan;
                 } else if angle_ray < PI { // loking down
-                    rayY = (((playerY / Tile_size) as i32) as f32) * Tile_size + Tile_size;
-                    rayX = playerX + ((playerY - rayY) * aTan);
-                    offsetY = Tile_size;
-                    offsetX = -offsetY * aTan;
+                    ray_y = (((playerY / Tile_size) as i32) as f32) * Tile_size + Tile_size;
+                    ray_x = playerX + ((playerY - ray_y) * aTan);
+                    offset_y = Tile_size;
+                    offset_x = -offset_y * aTan;
                 } else {
-                    rayY = playerY;
-                    rayX = playerX;
+                    ray_y = playerY;
+                    ray_x = playerX;
                     rendist = RENDER_DIST
                 }
 
                 while rendist < RENDER_DIST {
-                    if map.tile_in_position(Vec2{ x: rayX, y: rayY }).render {
+                    if map.tile_in_position(Vec2{ x: ray_x, y: ray_y }).render {
                         break
                     }
-                    rayX += offsetX;
-                    rayY += offsetY;
+                    ray_x += offset_x;
+                    ray_y += offset_y;
                     rendist += 1;
                 }
-                ray_posiH = vec2(rayX, rayY)
+                ray_posi_h = vec2(ray_x, ray_y)
             }
             // Calc horizontal -=-=-=-=-=-=-=--=-=-=-=-
             // Calc vertical -=-=-=-=-=-=-=--=-=-=-=-
             let ray_posiV:Vec2;
             {
                 let aTan:f32 = -f32::tan(angle_ray);
-                let mut rayX: f32;
-                let mut rayY: f32;
-                let mut offsetX: f32 = 0.0;
-                let mut offsetY: f32 = 0.0;
+                let mut ray_x: f32;
+                let mut ray_y: f32;
+                let mut offset_x: f32 = 0.0;
+                let mut offset_y: f32 = 0.0;
                 let mut rendist:usize = 0;
 
                 if angle_ray < PI2 || angle_ray > _3PI2 { // loking rigth
-                    rayX = (((playerX / Tile_size) as i32) as f32) * Tile_size + Tile_size;
-                    rayY = playerY + ((playerX - rayX) * aTan);
-                    offsetX = Tile_size;
-                    offsetY = -offsetX * aTan;
+                    ray_x = (((playerX / Tile_size) as i32) as f32) * Tile_size + Tile_size;
+                    ray_y = playerY + ((playerX - ray_x) * aTan);
+                    offset_x = Tile_size;
+                    offset_y = -offset_x * aTan;
                 } else if angle_ray > PI2 && angle_ray < _3PI2 { //loking left
-                    rayX = (((playerX / Tile_size) as i32) as f32) * Tile_size - 0.0001;
-                    rayY = playerY + ((playerX - rayX) * aTan);
-                    offsetX = -Tile_size;
-                    offsetY = -offsetX * aTan;
+                    ray_x = (((playerX / Tile_size) as i32) as f32) * Tile_size - 0.0001;
+                    ray_y = playerY + ((playerX - ray_x) * aTan);
+                    offset_x = -Tile_size;
+                    offset_y = -offset_x * aTan;
                 } else {
-                    rayY = playerY;
-                    rayX = playerX;
+                    ray_y = playerY;
+                    ray_x = playerX;
                     rendist = RENDER_DIST
                 }
 
                 while rendist < RENDER_DIST {
-                    if map.tile_in_position(Vec2{ x: rayX, y: rayY }).render {
+                    if map.tile_in_position(Vec2{ x: ray_x, y: ray_y }).render {
                         break
                     }
-                    rayX += offsetX;
-                    rayY += offsetY;
+                    ray_x += offset_x;
+                    ray_y += offset_y;
                     rendist += 1;
                 }
-                ray_posiV = vec2(rayX, rayY);
+                ray_posiV = vec2(ray_x, ray_y);
             }
             // Calc vertical -=-=-=-=-=-=-=--=-=-=-=-
 
-            let distH = f32::abs(player.locate.distance(ray_posiH));
-            let distV = f32::abs(player.locate.distance(ray_posiV));
+            let dist_h = f32::abs(player.locate.distance(ray_posi_h));
+            let dist_v = f32::abs(player.locate.distance(ray_posiV));
 
             let point:Vec2;
             let size:f32;
-            if distH < distV {
-                point = ray_posiH;
-                size = distH;
+            if dist_h < dist_v {
+                point = ray_posi_h;
+                size = dist_h;
             }else {
                 point = ray_posiV;
-                size = distV;
+                size = dist_v;
             }
 
             self.rays.push(Ray{ position: point, size: f32::cos(player.angle - angle_ray) * size });
             angle_ray += angle_per_cont;
             angle_ray = normalize_angle(angle_ray);
-            //draw_circle(ray_posiH.x,ray_posiH.y, 9.0,DARKBROWN);
+            //draw_circle(ray_posi_h.x,ray_posi_h.y, 9.0,DARKBROWN);
             //draw_circle(ray_posiV.x,ray_posiV.y, 9.0,DARKPURPLE);
         }
     }
