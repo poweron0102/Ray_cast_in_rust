@@ -23,6 +23,7 @@ pub fn normalize_angle(angle: f32) -> f32 {
     result
 }
 
+#[derive(Debug, Copy, Clone)]
 pub struct Player {
     pub locate: Vec2,
     pub speed: f32,

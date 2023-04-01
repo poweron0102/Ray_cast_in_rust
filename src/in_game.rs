@@ -11,10 +11,23 @@ use crate::in_game::mine_map::MapStruct;
 use crate::in_game::player::Player;
 use crate::in_game::ray_cast::RayCast;
 
+impl Clone for In_game {
+    fn clone(&self) -> Self {
+        In_game{
+            map: self.map,
+            player: self.player,
+            ray_cast: self.ray_cast.clone(),
+            change_state: None,
+        }
+    }
+}
+
 pub struct In_game {
     map: MapStruct,
     player: Player,
     ray_cast: RayCast,
+
+    pub change_state: Option<Box<dyn crate::Game>>,
 }
 impl In_game {
     pub fn new(map_id: i32) -> In_game {
@@ -22,6 +35,8 @@ impl In_game {
             map: MapStruct::new(map_id),
             player: Player::new(),
             ray_cast: RayCast::new(),
+
+            change_state: None,
         }
     }
 

@@ -15,9 +15,11 @@ const FOV2:f32 = FOV / 2.0;
 
 const RENDER_DIST:usize = 20;
 
+#[derive(Debug, Clone)]
 pub struct RayCast {
     rays: Vec<Ray>
 }
+#[derive(Debug, Copy, Clone)]
 struct Ray {
     position: Vec2,
     size: f32

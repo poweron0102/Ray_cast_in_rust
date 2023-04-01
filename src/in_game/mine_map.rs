@@ -3,12 +3,14 @@ use macroquad::prelude::*;
 pub const Tile_size:f32 = 64.0;
 const MINE_MAP_ZOON:f32 = 16.0;
 
+#[derive(Debug, Copy, Clone)]
 pub enum Actions {
     None,
     Lose,
     NextMap
 }
 
+#[derive(Debug, Copy, Clone)]
 pub struct Tile {
     pub is_wall: bool,
     pub render: bool,
@@ -24,7 +26,7 @@ const T4:Tile = Tile{ is_wall: true,  render: true,  color: DARKPURPLE, action: 
 const T5:Tile = Tile{ is_wall: false, render: false, color: GREEN, action: Actions::NextMap };
 
 
-
+#[derive(Debug, Copy, Clone)]
 pub struct MapStruct {
     current_map_id:i32,
     map:[[Tile; 20]; 11]
@@ -45,16 +47,14 @@ impl MapStruct {
         }
         let x_in_map = (position.x / Tile_size) as usize;
         let y_in_map = (position.y / Tile_size) as usize;
-        if self.map.len() <= y_in_map {
-            return &T0
-        }
-        else {
+        return if self.map.len() <= y_in_map {
+            &T0
+        } else {
             if self.map[y_in_map].len() <= x_in_map {
-                return &T0
+                &T0
+            } else {
+                &self.map[y_in_map][x_in_map]
             }
-            else {
-                return  &self.map[y_in_map][x_in_map]
-            };
         };
     }
 
