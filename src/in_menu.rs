@@ -12,8 +12,6 @@ pub struct In_menu {
     new_game_b:   Element<Button>,
     configs_b:    Element<Button>,
     map_editor_b: Element<Button>,
-
-    pub change_state: Option<Box<dyn Game>>,
 }
 impl In_menu {
     pub fn new() -> In_menu {
@@ -35,16 +33,14 @@ impl In_menu {
             new_game_b,
             configs_b,
             map_editor_b,
-
-            change_state: None,
         }
     }
 
-    pub fn events(&mut self) {
+    pub fn events(&mut self, update_state: &mut Option<Box<dyn Game>>) {
         self.main_menu.update();
 
         if self.new_game_b.read().has_been_pressed {
-            self.change_state = Some(Box::new(In_game::new(0)))
+            *update_state = Some(Box::new(In_game::new(0)))
         }
     }
 

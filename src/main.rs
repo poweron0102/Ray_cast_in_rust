@@ -16,43 +16,24 @@ const _3PI2:f32 = 3.0 * PI / 2.0;
 pub trait Game {
     fn events(&mut self, update_state: &mut Option<Box<dyn Game>>);
     fn draw(&mut self);
-    fn change_state(self) -> Box<dyn Game>;
-    fn change_state_status(&self) -> bool;
 }
 impl Game for In_game {
     fn events(&mut self, update_state: &mut Option<Box<dyn Game>>) {
-        self.events()
+        self.events(update_state)
     }
 
     fn draw(&mut self) {
         self.draw()
     }
 
-    fn change_state(self) -> Box<dyn Game > {
-        self.change_state.unwrap()
-    }
-
-    fn change_state_status(&self) -> bool {
-        if self.change_state.is_some() { return true }
-        false
-    }
 }
 impl Game for In_menu {
     fn events(&mut self, update_state: &mut Option<Box<dyn Game>>) {
-        self.events();
+        self.events(update_state);
     }
 
     fn draw(&mut self) {
         self.draw();
-    }
-
-    fn change_state(self) -> Box<dyn Game > {
-        self.change_state.unwrap()
-    }
-
-    fn change_state_status(&self) -> bool {
-        if self.change_state.is_some() { return true }
-        false
     }
 }
 
@@ -65,8 +46,11 @@ async fn main() {
     loop {
         game.events(&mut update_state);
 
-        if game.change_state_status() {
-            game = game.change_state();
+
+        if let Some(new_state) = update_state {
+            game = new_state;
+
+            update_state = None;
         }
 
         //draw_circle(280.0, 60.0, 30.0, RED);
