@@ -158,7 +158,7 @@ impl RayCast {
         let const_screan = 1.0;
         let screen_distance = (screen_width() / 2.0) / f32::tan(FOV2);
         for (ray_num, ray) in self.rays.iter().enumerate() {
-            let line_higth = (Tile_size * screen_distance / (ray.size + 0.00001));
+            let line_higth = Tile_size * screen_distance / (ray.size + 0.00001);
 
             draw_rectangle(ray_num as f32 * const_screan,
                            ((screen_width() / 2.0) - line_higth) / 2.0,

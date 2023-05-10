@@ -49,7 +49,6 @@ async fn main() {
 
         if let Some(new_state) = update_state {
             game = new_state;
-
             update_state = None;
         }
 

@@ -2,6 +2,7 @@ use macroquad::color::Color;
 use macroquad::math::vec2;
 use macroquad::window::screen_height;
 use Simples_menu::*;
+use Simples_menu::PositionType::Center;
 use crate::Game;
 use crate::in_game::In_game;
 
@@ -23,9 +24,9 @@ impl In_menu {
             b: 0.6,
             a: 0.4,
         };
-        let new_game_b = menu.add_element(Button::new("New game".to_string(), vec2(0.0, 10.0), None));
-        let configs_b = menu.add_element(Button::new("Config".to_string(), vec2(0.0, 60.0), None));
-        let map_editor_b = menu.add_element(Button::new("Map editor".to_string(), vec2(0.0, 110.0), None));
+        let new_game_b = menu.add_element(Button::new("New game".to_string(), Center, vec2(125.0, 10.0), None));
+        let configs_b = menu.add_element(Button::new("Config".to_string(), Center,vec2(125.0, 60.0), None));
+        let map_editor_b = menu.add_element(Button::new("Map editor".to_string(), Center,vec2(125.0, 110.0), None));
 
         In_menu{
             main_menu: menu,
@@ -38,6 +39,7 @@ impl In_menu {
 
     pub fn events(&mut self, update_state: &mut Option<Box<dyn Game>>) {
         self.main_menu.update();
+        if let Some(size) = &mut self.main_menu.size { size.y = screen_height() }
 
         if self.new_game_b.read().has_been_pressed {
             *update_state = Some(Box::new(In_game::new(0)))

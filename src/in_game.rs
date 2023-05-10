@@ -7,10 +7,14 @@ use macroquad::prelude::*;
 //use egui_macroquad;
 
 use std::f32::consts::PI;
+use macroquad::input::KeyCode::Menu;
+use Simples_menu::{Button, MenuElement};
+use Simples_menu::PositionType::TopLeft;
 use crate::Game;
 use crate::in_game::mine_map::MapStruct;
 use crate::in_game::player::Player;
 use crate::in_game::ray_cast::RayCast;
+use crate::in_menu::In_menu;
 
 impl Clone for In_game {
     fn clone(&self) -> Self {
@@ -39,6 +43,26 @@ impl In_game {
     pub fn events(&mut self, update_state: &mut Option<Box<dyn Game>>) {
         self.player.mouse();
         self.player.keyboard(&self.map);
+
+
+        if self.player.show_menu {
+            let mut pause_menu = Simples_menu::Menu::new("Pause menu".to_string(), vec2(0.0, 0.0));
+            let menu_rect = pause_menu.bounding_rect().unwrap();
+
+            pause_menu.position = Vec2{
+                x: screen_width() - (menu_rect.x / 2.0),
+                y: screen_height() - (menu_rect.y / 2.0)
+            };
+            let continue_b = pause_menu.add_element(Button::new("Continue".to_string(), TopLeft, Vec2{ x: 30.0, y: 0.0 }, None));
+            let main_menu_b = pause_menu.add_element(Button::new("Return to main menu".to_string(), TopLeft,Vec2{ x: 20.0, y: 30.0 }, None));
+
+
+            pause_menu.update();
+            if main_menu_b.read().has_been_pressed {
+                *update_state = Some(Box::new(In_menu::new()));
+            }
+            pause_menu.draw();
+        }
     }
 
     pub fn draw(&mut self) {
