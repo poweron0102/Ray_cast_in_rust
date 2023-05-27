@@ -1,6 +1,7 @@
 mod mine_map;
 mod player;
 mod ray_cast;
+mod pause_menu;
 
 use macroquad::prelude::*;
 //use egui;
@@ -22,6 +23,7 @@ impl Clone for In_game {
             map: self.map,
             player: self.player,
             ray_cast: self.ray_cast.clone(),
+            pause_menu: None,
         }
     }
 }
@@ -30,6 +32,7 @@ pub struct In_game {
     map: MapStruct,
     player: Player,
     ray_cast: RayCast,
+    pause_menu: Option<Simples_menu::Menu>,
 }
 impl In_game {
     pub fn new(map_id: i32) -> In_game {
@@ -37,6 +40,7 @@ impl In_game {
             map: MapStruct::new(map_id),
             player: Player::new(),
             ray_cast: RayCast::new(),
+            pause_menu: None,
         }
     }
 
@@ -69,6 +73,9 @@ impl In_game {
         //self.map.draw();
         //self.player.draw();
         //self.ray_cast.draw_rays(&player, &map);
+        if self.player.show_menu {
+
+        }
         self.ray_cast.draw(&self.player, &self.map);
 
         if self.player.is_map_open {
