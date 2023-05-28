@@ -8,7 +8,7 @@ use crate::in_game::In_game;
 
 
 pub struct In_menu {
-    main_menu: Simples_menu::Menu,
+    main_menu: Menu,
     //Buttons
     new_game_b:   Element<Button>,
     configs_b:    Element<Button>,
@@ -16,7 +16,7 @@ pub struct In_menu {
 }
 impl In_menu {
     pub fn new() -> In_menu {
-        let mut menu = Simples_menu::Menu::new("Ray cast".to_string(), vec2(20.0, 20.0));
+        let mut menu = Menu::new("Ray cast".to_string(), vec2(20.0, 20.0));
         menu.size = Some(vec2(250.0, screen_height()));
         menu.color = Color{
             r: 0.0,

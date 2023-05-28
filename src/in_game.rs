@@ -13,6 +13,7 @@ use Simples_menu::{Button, MenuElement};
 use Simples_menu::PositionType::TopLeft;
 use crate::Game;
 use crate::in_game::mine_map::MapStruct;
+use crate::in_game::pause_menu::PauseMenu;
 use crate::in_game::player::Player;
 use crate::in_game::ray_cast::RayCast;
 use crate::in_menu::In_menu;
@@ -32,11 +33,11 @@ pub struct In_game {
     map: MapStruct,
     player: Player,
     ray_cast: RayCast,
-    pause_menu: Option<Simples_menu::Menu>,
+    pause_menu: Option<PauseMenu>,
 }
 impl In_game {
     pub fn new(map_id: i32) -> In_game {
-        In_game{
+        In_game {
             map: MapStruct::new(map_id),
             player: Player::new(),
             ray_cast: RayCast::new(),
@@ -50,32 +51,19 @@ impl In_game {
 
 
         if self.player.show_menu {
-            let mut pause_menu = Simples_menu::Menu::new("Pause menu".to_string(), vec2(0.0, 0.0));
-            let menu_rect = pause_menu.bounding_rect().unwrap();
-
-            pause_menu.position = Vec2{
-                x: screen_width() - (menu_rect.x / 2.0),
-                y: screen_height() - (menu_rect.y / 2.0)
-            };
-            let continue_b = pause_menu.add_element(Button::new("Continue".to_string(), TopLeft, Vec2{ x: 30.0, y: 0.0 }, None));
-            let main_menu_b = pause_menu.add_element(Button::new("Return to main menu".to_string(), TopLeft,Vec2{ x: 20.0, y: 30.0 }, None));
-
-
-            pause_menu.update();
-            if main_menu_b.read().has_been_pressed {
-                *update_state = Some(Box::new(In_menu::new()));
+            if self.pause_menu.is_some() {
+                self.pause_menu.as_mut().unwrap().update(update_state, &mut self.player)
             }
-            pause_menu.draw();
+            else { self.pause_menu = Some(PauseMenu::new()) }
         }
     }
+
 
     pub fn draw(&mut self) {
         //self.map.draw();
         //self.player.draw();
         //self.ray_cast.draw_rays(&player, &map);
-        if self.player.show_menu {
 
-        }
         self.ray_cast.draw(&self.player, &self.map);
 
         if self.player.is_map_open {
@@ -83,8 +71,12 @@ impl In_game {
             self.player.mine_player_draw(&self.map);
         }
 
+        if self.player.show_menu {
+            self.pause_menu.as_ref().unwrap().draw()
+        }
+
         if self.player.show_fps {
-            draw_text(&*format!("FPS: {}", get_fps()), 20.0, 20.0, 23.0, YELLOW);
+            draw_text(&format!("FPS: {}", get_fps()), 20.0, 20.0, 23.0, YELLOW);
         }
     }
 }

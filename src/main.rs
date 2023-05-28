@@ -52,7 +52,6 @@ async fn main() {
             update_state = None;
         }
 
-        //draw_circle(280.0, 60.0, 30.0, RED);
 
         game.draw();
         next_frame().await
