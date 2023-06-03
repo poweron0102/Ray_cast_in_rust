@@ -17,6 +17,7 @@ use crate::in_game::pause_menu::PauseMenu;
 use crate::in_game::player::Player;
 use crate::in_game::ray_cast::RayCast;
 use crate::in_menu::In_menu;
+use crate::pwsl::PwsL;
 
 impl Clone for In_game {
     fn clone(&self) -> Self {
@@ -25,6 +26,7 @@ impl Clone for In_game {
             player: self.player,
             ray_cast: self.ray_cast.clone(),
             pause_menu: None,
+            pwsl: self.pwsl.clone()
         }
     }
 }
@@ -34,6 +36,7 @@ pub struct In_game {
     player: Player,
     ray_cast: RayCast,
     pause_menu: Option<PauseMenu>,
+    pwsl: PwsL<'static>
 }
 impl In_game {
     pub fn new(map_id: i32) -> In_game {
@@ -42,6 +45,7 @@ impl In_game {
             player: Player::new(),
             ray_cast: RayCast::new(),
             pause_menu: None,
+            pwsl: PwsL::new(),
         }
     }
 
