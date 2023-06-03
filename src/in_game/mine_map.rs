@@ -14,16 +14,17 @@ pub enum Actions {
 pub struct Tile {
     pub is_wall: bool,
     pub render: bool,
-    pub color: Color,
+        color: Color,
+    pub visible_color: Color,
     pub action: Actions
 }
 
-const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, action: Actions::None };
-const T1:Tile = Tile{ is_wall: true,  render: true,  color: GRAY, action: Actions::None };
-const T2:Tile = Tile{ is_wall: true,  render: true,  color: RED, action: Actions::None };
-const T3:Tile = Tile{ is_wall: true,  render: true,  color: DARKBLUE, action: Actions::None };
-const T4:Tile = Tile{ is_wall: true,  render: true,  color: DARKPURPLE, action: Actions::None };
-const T5:Tile = Tile{ is_wall: false, render: false, color: GREEN, action: Actions::NextMap };
+const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color: BLANK, action: Actions::None };
+const T1:Tile = Tile{ is_wall: true,  render: true, color: GRAY, visible_color: GRAY, action: Actions::None };
+const T2:Tile = Tile{ is_wall: true,  render: true, color: RED, visible_color: RED, action: Actions::None };
+const T3:Tile = Tile{ is_wall: true,  render: true, color: DARKBLUE, visible_color: DARKBLUE, action: Actions::None };
+const T4:Tile = Tile{ is_wall: true,  render: true, color: DARKPURPLE, visible_color: DARKPURPLE, action: Actions::None };
+const T5:Tile = Tile{ is_wall: false, render: false, color: GREEN, visible_color: GREEN, action: Actions::NextMap };
 
 
 #[derive(Debug, Copy, Clone)]
@@ -109,7 +110,7 @@ impl MapStruct {
                                (row_id as f32) * Tile_size,
                                Tile_size,
                                Tile_size,
-                               tile.color
+                               tile.visible_color
                 )
             }
         }
@@ -147,7 +148,7 @@ impl MapStruct {
                                (screen_height() - mine_map_size.y - distance.y) + ((row_id as f32) * MINE_MAP_ZOON),
                                MINE_MAP_ZOON,
                                MINE_MAP_ZOON,
-                               tile.color
+                               tile.visible_color
                 )
             }
         }

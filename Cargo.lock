@@ -8,6 +8,7 @@ version = "0.1.0"
 dependencies = [
  "Simples_menu",
  "macroquad",
+ "serde",
 ]
 
 [[package]]
@@ -381,6 +382,12 @@ checksum = "4424af4bf778aae2051a77b60283332f386554255d722233d09fbfc7e30da2fc"
 dependencies = [
  "proc-macro2",
 ]
+
+[[package]]
+name = "serde"
+version = "1.0.163"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2113ab51b87a539ae008b5c6c02dc020ffa39afd2d83cffcb3f4eb2722cebec2"
 
 [[package]]
 name = "smallvec"

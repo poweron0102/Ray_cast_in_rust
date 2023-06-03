@@ -1,6 +1,8 @@
 mod in_game;
 mod in_menu;
 mod in_load;
+mod in_map_editor;
+mod pwsl;
 
 use macroquad::prelude::*;
 use std::f32::consts::PI;
@@ -8,6 +10,9 @@ use std::ops::Deref;
 
 use crate::in_game::In_game;
 use crate::in_load::In_load;
+use crate::in_map_editor::InMapEditor;
+
+
 use crate::in_menu::In_menu;
 
 const PI2:f32 = PI/2.0;
@@ -35,6 +40,11 @@ impl Game for In_menu {
     fn draw(&mut self) {
         self.draw();
     }
+}
+impl Game for InMapEditor {
+    fn events(&mut self, update_state: &mut Option<Box<dyn Game>>) { self.events(); }
+
+    fn draw(&mut self) { InMapEditor::draw(self); }
 }
 
 

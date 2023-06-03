@@ -164,7 +164,7 @@ impl RayCast {
                            ((screen_width() / 2.0) - line_higth) / 2.0,
                            const_screan,
                            line_higth,
-                           map.tile_in_position(ray.position).color);
+                           map.tile_in_position(ray.position).visible_color);
 
         }
     }

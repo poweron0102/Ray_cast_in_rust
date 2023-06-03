@@ -5,6 +5,8 @@ use Simples_menu::*;
 use Simples_menu::PositionType::Center;
 use crate::Game;
 use crate::in_game::In_game;
+use std::fs;
+use crate::in_map_editor::InMapEditor;
 
 
 pub struct In_menu {
@@ -43,6 +45,9 @@ impl In_menu {
 
         if self.new_game_b.read().has_been_pressed {
             *update_state = Some(Box::new(In_game::new(0)))
+        }
+        if self.map_editor_b.read().has_been_pressed {
+            *update_state = Some(Box::new(InMapEditor::new()))
         }
     }
 
