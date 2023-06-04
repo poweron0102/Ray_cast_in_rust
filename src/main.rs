@@ -3,8 +3,9 @@ mod in_menu;
 mod in_load;
 mod in_map_editor;
 //mod pwss;
-mod python;
+//mod python;
 mod lua;
+mod map;
 
 use macroquad::prelude::*;
 use std::f32::consts::PI;
@@ -44,9 +45,13 @@ impl Game for In_menu {
     }
 }
 impl Game for InMapEditor {
-    fn events(&mut self, update_state: &mut Option<Box<dyn Game>>) { self.events(); }
+    fn events(&mut self, update_state: &mut Option<Box<dyn Game>>) {
+        InMapEditor::events(self, update_state);
+    }
 
-    fn draw(&mut self) { InMapEditor::draw(self); }
+    fn draw(&mut self) {
+        InMapEditor::draw(self);
+    }
 }
 
 

@@ -10,5 +10,6 @@ macroquad = { path = "../macroquad"}
 #egui-macroquad = "*"
 #egui = "*"
 Simples_menu = { path = "../Simples_menu"}
-serde = "*"
+serde = { version = "*", features = ["derive"] }
+serde_json = "*"
 hlua = "*"

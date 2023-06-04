@@ -1,13 +1,16 @@
+use std::collections::HashSet;
+use std::fs;
+
 use macroquad::color::Color;
 use macroquad::math::vec2;
 use macroquad::window::screen_height;
 use Simples_menu::*;
 use Simples_menu::PositionType::Center;
+
 use crate::Game;
 use crate::in_game::In_game;
-use std::fs;
 use crate::in_map_editor::InMapEditor;
-
+use crate::map::WordMap;
 
 pub struct In_menu {
     main_menu: Menu,
