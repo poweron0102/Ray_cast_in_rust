@@ -1,4 +1,4 @@
-// Hello, this is the Powers Script file
+// Hello, this is the PwsS, Powers Script, file
 // the operation will be executed in this way:
 //
 // Operation_code , var1_or_number , ver2_or_number , result_var;
@@ -7,7 +7,7 @@
 //
 //
 //
-
+/*
 use std::collections::HashMap;
 use std::ops::Deref;
 use crate::in_game::In_game;
@@ -98,7 +98,7 @@ fn get_vars(vars_needed: usize, vars: Vec<&str>, in_game:&mut In_game, pos: (usi
 
     if v1.type_id() == v2.type_id() && v2.type_id() == v3.type_id() {
         (v1, v2, v3)
-    }else { panic!() }
+    }else { panic!("Vars is not of the same type!") }
 }
 
 fn add(vars: Vec<&str>, in_game:&mut In_game, pos: (usize, usize)) {
@@ -133,4 +133,4 @@ impl PwsS<'_> {
 
 
 }
-
+*/

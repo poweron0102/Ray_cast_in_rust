@@ -11,3 +11,4 @@ macroquad = { path = "../macroquad"}
 #egui = "*"
 Simples_menu = { path = "../Simples_menu"}
 serde = "*"
+hlua = "*"

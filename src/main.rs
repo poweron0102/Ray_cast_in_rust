@@ -2,7 +2,9 @@ mod in_game;
 mod in_menu;
 mod in_load;
 mod in_map_editor;
-mod pwss;
+//mod pwss;
+mod python;
+mod lua;
 
 use macroquad::prelude::*;
 use std::f32::consts::PI;
