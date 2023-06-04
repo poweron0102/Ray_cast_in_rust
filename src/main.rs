@@ -2,7 +2,7 @@ mod in_game;
 mod in_menu;
 mod in_load;
 mod in_map_editor;
-mod pwsl;
+mod pwss;
 
 use macroquad::prelude::*;
 use std::f32::consts::PI;
