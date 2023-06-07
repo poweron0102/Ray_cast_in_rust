@@ -1,6 +1,11 @@
+use std::{env, error, fs};
 use std::ops::{Deref, DerefMut};
 use macroquad::prelude::*;
 use serde::*;
+use std::fs::File;
+use std::io::{Write, BufReader, BufRead, Error, Read};
+use std::path::Path;
+
 
 pub const Tile_size: f32 = 64.0;
 
@@ -20,35 +25,58 @@ impl TilePosition {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct Tile {
     pub is_wall: bool,
     pub render: bool,
     pub color: Color,
     pub visible_color: Color,
-    pub action: Option<&'static str>
+    pub action: Option<String>
 }
 
-const T0:Tile = Tile{ is_wall: false, render: false, color: WHITE, visible_color: WHITE, action: None };
+const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color: BLANK, action: None };
 const T1:Tile = Tile{ is_wall: true,  render: true,  color: GRAY, visible_color: GRAY, action: None };
 const T2:Tile = Tile{ is_wall: true,  render: true,  color: RED, visible_color: RED, action: None };
 const T3:Tile = Tile{ is_wall: true,  render: true,  color: DARKBLUE, visible_color: DARKBLUE, action: None };
 const T4:Tile = Tile{ is_wall: true,  render: true,  color: DARKPURPLE, visible_color: DARKPURPLE, action: None };
 const T5:Tile = Tile{ is_wall: false, render: false, color: GREEN, visible_color: GREEN, action: None };
 
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct WordMap {
     //pub map: [[Tile; 64]; 64],
     pub map: Vec<Vec<Tile>>
 }
 impl WordMap {
-    pub fn new() -> WordMap {
+    pub fn new_empty() -> WordMap {
         WordMap{
             //map: [[T0; 64]; 64]
             map: vec![vec![T0; 32]; 32]
         }
     }
 
-    pub fn tile_in_position_vec2(&mut self, position: Vec2, offset: Vec2) -> Option<&mut Tile> {
+
+    pub fn save_map(&self, file_name: &str) {
+        let path_str = "./save/maps/".to_string() + file_name;
+        let file_dir = Path::new(&path_str);
+
+        let serded_string = serde_json::to_string(self).unwrap();
+        fs::write(file_dir, serded_string)
+            .expect(&format!("The diretory: \"{path_str}\" :"));
+    }
+
+
+    pub fn new_from_map_save(file_name: &str) -> WordMap {
+        let path_str = "./save/maps/".to_string() + file_name;
+        let file_dir = Path::new(&path_str);
+
+        let mut file= "".to_string();
+        File::open(&file_dir).unwrap().read_to_string(&mut file)
+            .expect(&format!("The diretory: \"{path_str}\" :"));
+
+        serde_json::from_str(&*file).unwrap()
+    }
+
+    pub fn tile_in_position_vec2_mut(&mut self, position: Vec2, offset: Vec2) -> Option<&mut Tile> {
         if position.x < offset.x || position.y < offset.y {
             return None
         }
@@ -68,6 +96,30 @@ impl WordMap {
                 None
             } else {
                 let tile = &mut self.map[y_in_map][x_in_map];
+                Some(tile)
+            }
+        };
+    }
+    pub fn tile_in_position_vec2(&self, position: Vec2, offset: Vec2) -> Option<&Tile> {
+        if position.x < offset.x || position.y < offset.y {
+            return None
+        }
+
+        let x_in_map:usize;
+        let y_in_map:usize;
+        {
+            let temp = TilePosition::cord_to_tile_position(position, offset);
+            x_in_map = temp.x;
+            y_in_map = temp.y;
+        }
+
+        return if self.map.len() <= y_in_map {
+            None
+        } else {
+            if self.map[y_in_map].len() <= x_in_map {
+                None
+            } else {
+                let tile = &self.map[y_in_map][x_in_map];
                 Some(tile)
             }
         };

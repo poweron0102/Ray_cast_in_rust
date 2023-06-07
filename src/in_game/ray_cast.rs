@@ -7,7 +7,7 @@ use macroquad::prelude::collections::storage::get;
 use macroquad::shapes::{draw_circle, draw_line};
 use macroquad::window::screen_height;
 use crate::{_3PI2, PI2};
-use crate::in_game::mine_map::{Tile_size, MapStruct, Tile};
+use crate::in_game::mine_map::{Tile_size, MineMap};
 use crate::in_game::player::{normalize_angle, Player};
 
 const FOV:f32 = PI/3.0;
@@ -32,7 +32,7 @@ impl RayCast {
         }
     }
 
-    fn get_rays_size(&mut self, player: &Player, map: &MapStruct) {
+    fn get_rays_size(&mut self, player: &Player, map: &MineMap) {
         self.rays = vec![];
         let angle_start = normalize_angle(player.angle - FOV2);
         //let angle_end = normalize_angle(player.angle + FOV2);
@@ -139,7 +139,7 @@ impl RayCast {
         }
     }
 
-    pub fn draw_rays(&mut self, player: &Player, map: &MapStruct) {
+    pub fn draw_rays(&mut self, player: &Player, map: &MineMap) {
         self.get_rays_size(player, map);
 
         for ray in &self.rays {
@@ -152,7 +152,7 @@ impl RayCast {
         }
     }
 
-    pub fn draw(&mut self, player: &Player, map: &MapStruct) {
+    pub fn draw(&mut self, player: &Player, map: &MineMap) {
         self.get_rays_size(player, map);
 
         let const_screan = 1.0;

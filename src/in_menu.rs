@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use std::fs;
+use std::{fs, io};
 
 use macroquad::color::Color;
 use macroquad::math::vec2;
@@ -11,6 +11,21 @@ use crate::Game;
 use crate::in_game::In_game;
 use crate::in_map_editor::InMapEditor;
 use crate::map::WordMap;
+
+fn get_file_names_in_folder(folder_path: &str) -> io::Result<Vec<String>> {
+    let entries = fs::read_dir(folder_path)?;
+    let file_names: Vec<String> = entries
+        .filter_map(|entry| {
+            if let Ok(entry) = entry {
+                if let Ok(file_name) = entry.file_name().into_string() {
+                    return Some(file_name);
+                }
+            }
+            None
+        })
+        .collect();
+    Ok(file_names)
+}
 
 pub struct In_menu {
     main_menu: Menu,
@@ -47,7 +62,7 @@ impl In_menu {
         if let Some(size) = &mut self.main_menu.size { size.y = screen_height() }
 
         if self.new_game_b.read().has_been_pressed {
-            *update_state = Some(Box::new(In_game::new(0)))
+            *update_state = Some(Box::new(In_game::new("default.json")))
         }
         if self.map_editor_b.read().has_been_pressed {
             *update_state = Some(Box::new(InMapEditor::new()))

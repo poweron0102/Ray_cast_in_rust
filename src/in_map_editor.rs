@@ -24,7 +24,7 @@ impl InMapEditor {
     pub fn new() -> InMapEditor {
         InMapEditor {
             selected_tiles: HashSet::new(),
-            map: WordMap::new(),
+            map: WordMap::new_empty(),
 
             in_mapa_editor_menu: MapEditorMenu::new(),
         }
@@ -44,7 +44,6 @@ impl InMapEditor {
         for selected_tile_position in self.selected_tiles.clone() {
             let selected_tile = self.map.tile_in_position_mut(&selected_tile_position).unwrap();
             selected_tile.visible_color = BLUE;
-            //println!("{:?}", selected_tile_position);
         }
         // Pintar os selecionados
 
@@ -52,7 +51,7 @@ impl InMapEditor {
         let mouse = Vec2::new(mouse.0, mouse.1);
 
 
-        if let Some(hover_tile) = self.map.tile_in_position_vec2(mouse, Vec2 { x: 288.0, y: 0.0 }) {
+        if let Some(hover_tile) = self.map.tile_in_position_vec2_mut(mouse, Vec2 { x: 288.0, y: 0.0 }) {
             let tile_hover_position = TilePosition::cord_to_tile_position(mouse, Vec2 { x: 288.0, y: 0.0 });
             hover_tile.visible_color = Color { r: 0.0, g: 0.0, b: 1.0, a: 0.5 };
 

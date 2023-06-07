@@ -12,7 +12,7 @@ use macroquad::input::KeyCode::Menu;
 use Simples_menu::{Button, MenuElement};
 use Simples_menu::PositionType::TopLeft;
 use crate::Game;
-use crate::in_game::mine_map::MapStruct;
+use crate::in_game::mine_map::MineMap;
 use crate::in_game::pause_menu::PauseMenu;
 use crate::in_game::player::Player;
 use crate::in_game::ray_cast::RayCast;
@@ -22,7 +22,7 @@ use crate::in_menu::In_menu;
 impl Clone for In_game {
     fn clone(&self) -> Self {
         In_game{
-            map: self.map,
+            map: self.map.clone(),
             player: self.player,
             ray_cast: self.ray_cast.clone(),
             pause_menu: None,
@@ -32,16 +32,16 @@ impl Clone for In_game {
 }
 
 pub struct In_game {
-    map: MapStruct,
+    map: MineMap,
     player: Player,
     ray_cast: RayCast,
     pause_menu: Option<PauseMenu>,
     //pub(crate) pwss: PwsS<'static>
 }
 impl In_game {
-    pub fn new(map_id: i32) -> In_game {
+    pub fn new(map_name: &str) -> In_game {
         In_game {
-            map: MapStruct::new(map_id),
+            map: MineMap::new(map_name),
             player: Player::new(),
             ray_cast: RayCast::new(),
             pause_menu: None,

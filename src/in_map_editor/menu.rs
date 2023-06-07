@@ -1,3 +1,4 @@
+use std::io;
 use macroquad::prelude::*;
 use macroquad::ui::widgets::Label;
 use Simples_menu::{Button, CheckBox, Element, Menu, SmartButton, TextLabel};
@@ -25,7 +26,6 @@ pub struct MapEditorMenu {
 //const T5:Tile = Tile{ is_wall: false, render: false, color: GREEN, visible_color: GREEN, action: Actions::NextMap };
 impl MapEditorMenu {
     pub fn new() -> MapEditorMenu {
-        println!("bahsbdksjdbkasnj");
         let mut menu = Menu::new("Ray cast".to_string(), vec2(20.0, 20.0));
         menu.size = Some(vec2(250.0, screen_height()));
         menu.color = Color {
@@ -79,8 +79,17 @@ impl MapEditorMenu {
                 let tile = in_map_editor.map.tile_in_position_mut(&selected_tile).unwrap();
                 tile.is_wall = is_wall;
                 tile.render = is_render;
-                println!("{:?}", tile)
+                //println!("{:?}", tile)
             };
+        }
+
+        if in_map_editor.in_mapa_editor_menu.save_button.read().is_pressed {
+            println!("Qual o nome do mapa para salvar?");
+            let mut nome= String::new();
+            io::stdin().read_line(&mut nome).expect("Erro ao ler o nome do mapa");
+            nome = nome[..&nome.len() -1].to_string();
+            let path = nome + ".json";
+            in_map_editor.map.save_map(&*path);
         }
 
         if in_map_editor.in_mapa_editor_menu.back_to_menu.read().is_pressed {

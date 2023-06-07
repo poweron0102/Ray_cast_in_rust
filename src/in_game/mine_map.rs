@@ -1,8 +1,10 @@
+use std::cell::Ref;
 use macroquad::prelude::*;
+use crate::map::{Tile, WordMap};
 
 pub const Tile_size:f32 = 64.0;
 const MINE_MAP_ZOON:f32 = 16.0;
-
+/*
 #[derive(Debug, Copy, Clone)]
 pub enum Actions {
     None,
@@ -25,41 +27,34 @@ const T2:Tile = Tile{ is_wall: true,  render: true, color: RED, visible_color: R
 const T3:Tile = Tile{ is_wall: true,  render: true, color: DARKBLUE, visible_color: DARKBLUE, action: Actions::None };
 const T4:Tile = Tile{ is_wall: true,  render: true, color: DARKPURPLE, visible_color: DARKPURPLE, action: Actions::None };
 const T5:Tile = Tile{ is_wall: false, render: false, color: GREEN, visible_color: GREEN, action: Actions::NextMap };
+*/
+const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color: BLANK, action: None };
 
-
-#[derive(Debug, Copy, Clone)]
-pub struct MapStruct {
-    current_map_id:i32,
-    map:[[Tile; 20]; 11]
+#[derive(Debug, Clone)]
+pub struct MineMap {
+    map: WordMap
+}
+impl AsRef<Vec<Vec<Tile>>> for WordMap {
+    fn as_ref(&self) -> &Vec<Vec<Tile>> {
+        &self.map
+    }
+}
+impl AsMut<Vec<Vec<Tile>>> for WordMap {
+    fn as_mut(&mut self) -> &mut Vec<Vec<Tile>> {
+        &mut self.map
+    }
 }
 
-impl MapStruct {
+impl MineMap {
 
-    pub fn new(id:i32) -> MapStruct {
-        MapStruct {
-            current_map_id: id,
-            map: MapStruct::get_map(id),
+    pub fn new(map_name: &str) -> MineMap {
+        MineMap {
+            map: WordMap::new_from_map_save(map_name),
         }
     }
 
-    pub fn tile_in_position(&self, position: Vec2) -> &Tile {
-        if position.x < 0.0 || position.y < 0.0 {
-            return &T0
-        }
-        let x_in_map = (position.x / Tile_size) as usize;
-        let y_in_map = (position.y / Tile_size) as usize;
-        return if self.map.len() <= y_in_map {
-            &T0
-        } else {
-            if self.map[y_in_map].len() <= x_in_map {
-                &T0
-            } else {
-                &self.map[y_in_map][x_in_map]
-            }
-        };
-    }
 
-    fn get_map(id:i32) -> [[Tile; 20]; 11]{
+    /*fn get_map(id:i32) -> [[Tile; 20]; 11]{
         match id {
             0 => [  // Mapa 0
                 [T0, T0, T1, T0, T0, T0, T0, T2, T0, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0, T0],
@@ -101,10 +96,15 @@ impl MapStruct {
                 [T0, T0, T1, T0, T0, T0, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0, T0, T0, T0, T5],
             ]
         }
+    }*/
+
+    pub fn tile_in_position(&self, position: Vec2) -> &Tile {
+        &self.map.tile_in_position_vec2(position, Vec2::new(0.0, 0.0)).unwrap_or(&T0)
     }
 
+
     pub fn draw(&self) {
-        for (row_id, row ) in self.map.iter().enumerate() {
+        for (row_id, row ) in self.map.as_ref().iter().enumerate() {
             for (column_id, tile) in row.iter().enumerate() {
                 draw_rectangle((column_id as f32) * Tile_size,
                                (row_id as f32) * Tile_size,
@@ -117,8 +117,8 @@ impl MapStruct {
     }
 
     pub fn to_mine_map(&self, point: Vec2) -> Vec2 {
-        let mine_map_size = vec2((self.map[0].len() as f32) * MINE_MAP_ZOON,
-                                 (self.map.len() as f32) * MINE_MAP_ZOON);
+        let mine_map_size = vec2((self.map.as_ref()[0].len() as f32) * MINE_MAP_ZOON,
+                                 (self.map.as_ref().len() as f32) * MINE_MAP_ZOON);
         let distance = vec2(20.0, 20.0);
 
         Vec2{
@@ -128,8 +128,8 @@ impl MapStruct {
     }
 
     pub fn mine_map_draw(&self) {
-        let mine_map_size = vec2((self.map[0].len() as f32) * MINE_MAP_ZOON,
-                             (self.map.len() as f32) * MINE_MAP_ZOON);
+        let mine_map_size = vec2((self.map.as_ref()[0].len() as f32) * MINE_MAP_ZOON,
+                             (self.map.as_ref().len() as f32) * MINE_MAP_ZOON);
         let distance = vec2(20.0, 20.0);
         let border_radius = 4.0;
         //println!("{:?}", mine_map_size);
@@ -142,7 +142,7 @@ impl MapStruct {
         );
 
 
-        for (row_id, row ) in self.map.iter().enumerate() {
+        for (row_id, row ) in self.map.as_ref().iter().enumerate() {
             for (column_id, tile) in row.iter().enumerate() {
                 draw_rectangle(((column_id as f32) * MINE_MAP_ZOON) + distance.x ,
                                (screen_height() - mine_map_size.y - distance.y) + ((row_id as f32) * MINE_MAP_ZOON),

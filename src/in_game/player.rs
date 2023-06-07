@@ -54,7 +54,7 @@ impl Player {
     }
 
 
-    pub fn keyboard(&mut self, map:&MapStruct) {
+    pub fn keyboard(&mut self, map:&MineMap) {
         //-=-=-=-=-=-=-=-=- Keyboard Movimento-=-=-=-=-=-=-=-=-=-=-=-
         let relative_speed = self.speed * get_frame_time();
         let mut delta = self.locate;
@@ -131,7 +131,7 @@ impl Player {
         );
     }
 
-    pub fn mine_player_draw(&self, map: &MapStruct) {
+    pub fn mine_player_draw(&self, map: &MineMap) {
         let mine_locale = map.to_mine_map(self.locate);
         draw_circle(mine_locale.x,
                     mine_locale.y,
