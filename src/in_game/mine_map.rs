@@ -4,31 +4,7 @@ use crate::map::{Tile, WordMap};
 
 pub const Tile_size:f32 = 64.0;
 const MINE_MAP_ZOON:f32 = 16.0;
-/*
-#[derive(Debug, Copy, Clone)]
-pub enum Actions {
-    None,
-    Lose,
-    NextMap
-}
-
-#[derive(Debug, Copy, Clone)]
-pub struct Tile {
-    pub is_wall: bool,
-    pub render: bool,
-        color: Color,
-    pub visible_color: Color,
-    pub action: Actions
-}
-
-const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color: BLANK, action: Actions::None };
-const T1:Tile = Tile{ is_wall: true,  render: true, color: GRAY, visible_color: GRAY, action: Actions::None };
-const T2:Tile = Tile{ is_wall: true,  render: true, color: RED, visible_color: RED, action: Actions::None };
-const T3:Tile = Tile{ is_wall: true,  render: true, color: DARKBLUE, visible_color: DARKBLUE, action: Actions::None };
-const T4:Tile = Tile{ is_wall: true,  render: true, color: DARKPURPLE, visible_color: DARKPURPLE, action: Actions::None };
-const T5:Tile = Tile{ is_wall: false, render: false, color: GREEN, visible_color: GREEN, action: Actions::NextMap };
-*/
-const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color: BLANK, action: None };
+const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color: BLANK, step_action: None, look_action: None, render_action: None };
 
 #[derive(Debug, Clone)]
 pub struct MineMap {

@@ -31,15 +31,17 @@ pub struct Tile {
     pub render: bool,
     pub color: Color,
     pub visible_color: Color,
-    pub action: Option<String>
+    pub step_action: Option<String>,
+    pub look_action: Option<String>,
+    pub render_action: Option<String>
 }
 
-const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color: BLANK, action: None };
-const T1:Tile = Tile{ is_wall: true,  render: true,  color: GRAY, visible_color: GRAY, action: None };
-const T2:Tile = Tile{ is_wall: true,  render: true,  color: RED, visible_color: RED, action: None };
-const T3:Tile = Tile{ is_wall: true,  render: true,  color: DARKBLUE, visible_color: DARKBLUE, action: None };
-const T4:Tile = Tile{ is_wall: true,  render: true,  color: DARKPURPLE, visible_color: DARKPURPLE, action: None };
-const T5:Tile = Tile{ is_wall: false, render: false, color: GREEN, visible_color: GREEN, action: None };
+const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color: BLANK, step_action: None, look_action: None, render_action: None };
+const T1:Tile = Tile{ is_wall: true,  render: true,  color: GRAY, visible_color: GRAY, step_action: None, look_action: None, render_action: None };
+const T2:Tile = Tile{ is_wall: true,  render: true,  color: RED, visible_color: RED, step_action: None, look_action: None, render_action: None };
+const T3:Tile = Tile{ is_wall: true,  render: true,  color: DARKBLUE, visible_color: DARKBLUE, step_action: None, look_action: None, render_action: None };
+const T4:Tile = Tile{ is_wall: true,  render: true,  color: DARKPURPLE, visible_color: DARKPURPLE, step_action: None, look_action: None, render_action: None };
+const T5:Tile = Tile{ is_wall: false, render: false, color: GREEN, visible_color: GREEN, step_action: None, look_action: None, render_action: None };
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct WordMap {
@@ -49,8 +51,22 @@ pub struct WordMap {
 impl WordMap {
     pub fn new_empty() -> WordMap {
         WordMap{
-            //map: [[T0; 64]; 64]
             map: vec![vec![T0; 32]; 32]
+            /*
+            map: vec![  // Mapa 0
+                        vec![T0, T0, T1, T0, T0, T0, T0, T2, T0, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0, T0],
+                        vec![T0, T0, T1, T0, T0, T0, T0, T2, T0, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0, T0],
+                        vec![T0, T0, T0, T0, T0, T0, T0, T2, T0, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0, T0],
+                        vec![T0, T0, T1, T0, T0, T0, T0, T0, T0, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0, T0],
+                        vec![T0, T0, T1, T0, T0, T2, T3, T3, T3, T2, T0, T0, T0, T0, T0, T0, T0, T0, T0, T0],
+                        vec![T0, T0, T1, T0, T0, T2, T0, T0, T0, T2, T0, T1, T1, T1, T1, T1, T0, T0, T0, T0],
+                        vec![T0, T0, T0, T0, T0, T1, T0, T4, T0, T1, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0],
+                        vec![T0, T0, T1, T0, T0, T1, T0, T0, T0, T1, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0],
+                        vec![T0, T0, T1, T0, T0, T1, T1, T0, T1, T1, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0],
+                        vec![T0, T0, T1, T0, T0, T1, T0, T0, T0, T1, T0, T0, T0, T2, T0, T0, T0, T0, T0, T0],
+                        vec![T0, T0, T1, T0, T0, T0, T0, T0, T0, T1, T0, T0, T0, T0, T0, T0, T0, T0, T0, T0],
+            ]
+             */
         }
     }
 
