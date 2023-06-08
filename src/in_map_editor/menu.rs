@@ -19,6 +19,7 @@ pub struct MapEditorMenu {
 
     paint_red_button: Element<Button>,
     set_tiles_button: Element<Button>,
+    set_step_action_button: Element<Button>,
 
     save_button: Element<Button>,
     load_button: Element<Button>,
@@ -58,6 +59,10 @@ impl MapEditorMenu {
             Button::new("Set presets".to_string(), Center, vec2(125.0, 160.0), None)
         );
 
+        let set_step_action_button= menu.add_element(
+            Button::new("Set step action".to_string(), Center, vec2(125.0, 210.0), None)
+        );
+
         let save_button= menu.add_element(
             Button::new("Save".to_string(), Center, vec2(32.5, screen_height() - 100.0), None)
         );
@@ -76,6 +81,7 @@ impl MapEditorMenu {
             render_check_box,
             paint_red_button,
             set_tiles_button,
+            set_step_action_button,
             save_button,
             load_button,
             back_to_menu,
@@ -121,6 +127,19 @@ impl MapEditorMenu {
             let path = nome + ".json";
 
             in_map_editor.map = WordMap::new_from_map_save(&*path)
+        }
+
+        if in_map_editor.in_mapa_editor_menu.set_step_action_button.read().has_been_pressed {
+            println!("Entre com o nome do script lua? ");
+            let mut nome= String::new();
+            io::stdin().read_line(&mut nome).expect("Erro ao ler o nome do mapa");
+            nome = nome[..&nome.len() -1].to_string();
+            let path = nome + ".lua";
+            for selected_tile in in_map_editor.selected_tiles.clone() {
+                let tile = in_map_editor.map.tile_in_position_mut(&selected_tile).unwrap();
+
+                tile.step_action = Some(path.clone())
+            }
         }
 
         if in_map_editor.in_mapa_editor_menu.back_to_menu.read().has_been_pressed {

@@ -1,51 +1,50 @@
-mod mine_map;
-mod player;
-mod ray_cast;
-mod pause_menu;
-
+use hlua::Lua;
 use macroquad::prelude::*;
-//use egui;
-//use egui_macroquad;
-
-use std::f32::consts::PI;
-use macroquad::input::KeyCode::Menu;
-use Simples_menu::{Button, MenuElement};
-use Simples_menu::PositionType::TopLeft;
 use crate::Game;
 use crate::in_game::mine_map::MineMap;
 use crate::in_game::pause_menu::PauseMenu;
 use crate::in_game::player::Player;
 use crate::in_game::ray_cast::RayCast;
-use crate::in_menu::In_menu;
-//use crate::pwss::PwsS;
+use crate::map::TilePosition;
 
-impl Clone for In_game {
+
+mod mine_map;
+mod player;
+mod ray_cast;
+mod pause_menu;
+
+impl Clone for InGame {
     fn clone(&self) -> Self {
-        In_game{
+        InGame {
             map: self.map.clone(),
             player: self.player,
             ray_cast: self.ray_cast.clone(),
             pause_menu: None,
-            //pwss: self.pwss.clone()
+            lua_interpreter: Lua::new(),
+            lua_scripts: vec![],
         }
     }
 }
-
-pub struct In_game {
-    map: MineMap,
-    player: Player,
+//#[derive()]
+pub struct InGame {
+    pub map: MineMap,
+    pub player: Player,
     ray_cast: RayCast,
     pause_menu: Option<PauseMenu>,
-    //pub(crate) pwss: PwsS<'static>
+    pub lua_interpreter: Lua<'static>,
+    pub lua_scripts: Vec<(String, TilePosition)>
 }
-impl In_game {
-    pub fn new(map_name: &str) -> In_game {
-        In_game {
+impl InGame {
+    pub fn new(map_name: &str) -> InGame {
+        let mut lua_interpreter = Lua::new();
+
+        InGame {
             map: MineMap::new(map_name),
             player: Player::new(),
             ray_cast: RayCast::new(),
             pause_menu: None,
-            //pwss: PwsS::new(),
+            lua_interpreter,
+            lua_scripts: vec![],
         }
     }
 
@@ -54,20 +53,25 @@ impl In_game {
         self.player.keyboard(&self.map);
 
 
+
         if self.player.show_menu {
             if self.pause_menu.is_some() {
                 self.pause_menu.as_mut().unwrap().update(update_state, &mut self.player)
             }
             else { self.pause_menu = Some(PauseMenu::new()) }
         }
+
+        if let Some(action) = &self.map.tile_in_position(self.player.locate).step_action {
+            let full_path = "/lua/".to_string() + action;
+
+            self.lua_scripts.push((full_path, TilePosition::cord_to_tile_position(self.player.locate, vec2(0.0, 0.0))))
+        }
+
+        self.lua_execute()
     }
 
 
     pub fn draw(&mut self) {
-        //self.map.draw();
-        //self.player.draw();
-        //self.ray_cast.draw_rays(&player, &map);
-
         self.ray_cast.draw(&self.player, &self.map);
 
         if self.player.is_map_open {

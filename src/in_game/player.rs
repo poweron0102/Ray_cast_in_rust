@@ -2,13 +2,15 @@ use crate::in_game::mine_map::*;
 use crate::*;
 
 
+
+
 const MOUSE_SEN:f32 = 4.0;
 
 fn sig(num:f32) -> f32 {
-    if num < 0.0 {
-        return -1.0
-    }else {
-        return 1.0
+    return if num < 0.0 {
+        -1.0
+    } else {
+        1.0
     }
 }
 
@@ -95,7 +97,6 @@ impl Player {
             delta.y += relative_speed * f32::sin(self.angle + PI2);
             if !map.tile_in_position(delta).is_wall { self.locate = delta };
         }
-        //println!("A posição do jogador é: {:?}", delta);
         //-=-=-=-=-=-=-=-=- Keyboard Movimento-=-=-=-=-=-=-=-=-=-=-=-
         if is_key_released(KeyCode::M) {
             self.is_map_open = !self.is_map_open;

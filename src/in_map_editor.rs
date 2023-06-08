@@ -1,8 +1,8 @@
 use std::collections::HashSet;
-use std::fs;
+
 
 use macroquad::prelude::*;
-use serde;
+
 use crate::Game;
 
 use crate::in_map_editor::menu::MapEditorMenu;
@@ -12,7 +12,7 @@ mod menu;
 
 //use std::hash::{Hash, Hasher};
 
-pub const Tile_size: f32 = 64.0;
+pub const TILE_SIZE: f32 = 64.0;
 
 pub struct InMapEditor {
     pub map: WordMap,
@@ -71,10 +71,10 @@ impl InMapEditor {
     pub fn draw(&self) {
         for (row_id, row) in self.map.map.iter().enumerate() {
             for (column_id, tile) in row.iter().enumerate() {
-                draw_rectangle((column_id as f32) * Tile_size + 8.0 + 288.0,
-                               (row_id as f32) * Tile_size + 8.0,
-                               Tile_size - 8.0,
-                               Tile_size - 8.0,
+                draw_rectangle((column_id as f32) * TILE_SIZE + 8.0 + 288.0,
+                               (row_id as f32) * TILE_SIZE + 8.0,
+                               TILE_SIZE - 8.0,
+                               TILE_SIZE - 8.0,
                                tile.visible_color,
                 )
             }
@@ -87,8 +87,8 @@ impl InMapEditor {
             let text = format!("X:{} Y:{}", selected_tile_position.x, selected_tile_position.y);
             let text_rect = measure_text(&*text, None, 12, 1.0);
             draw_text(&*text,
-                      (((selected_tile_position.x as f32) + 0.5) * Tile_size) - (text_rect.width/2.0) + 288.0,
-                      (((selected_tile_position.y as f32) + 0.5) * Tile_size) + (text_rect.height/2.0),
+                      (((selected_tile_position.x as f32) + 0.5) * TILE_SIZE) - (text_rect.width/2.0) + 288.0,
+                      (((selected_tile_position.y as f32) + 0.5) * TILE_SIZE) + (text_rect.height/2.0),
                       12.0,
                       BLACK
             )

@@ -8,7 +8,7 @@ use Simples_menu::*;
 use Simples_menu::PositionType::Center;
 
 use crate::Game;
-use crate::in_game::In_game;
+use crate::in_game::InGame;
 use crate::in_map_editor::InMapEditor;
 use crate::map::WordMap;
 
@@ -96,7 +96,7 @@ impl In_menu {
 
         for map_option in self.map_options.iter() {
             if map_option.read().has_been_pressed {
-                *update_state = Some(Box::new(In_game::new(&*map_option.read().title.name)))
+                *update_state = Some(Box::new(InGame::new(&*map_option.read().title.name)))
             }
         }
     }
