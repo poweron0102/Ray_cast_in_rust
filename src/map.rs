@@ -1,9 +1,8 @@
-use std::{env, error, fs};
-use std::ops::{Deref, DerefMut};
+use std::{fs};
 use macroquad::prelude::*;
 use serde::*;
 use std::fs::File;
-use std::io::{Write, BufReader, BufRead, Error, Read};
+use std::io::{Read};
 use std::path::Path;
 
 

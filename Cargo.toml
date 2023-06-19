@@ -12,4 +12,5 @@ macroquad = { path = "../macroquad"}
 Simples_menu = { path = "../Simples_menu"}
 serde = { version = "*", features = ["derive"] }
 serde_json = "*"
-hlua = "*"
+#hlua = "*"
+rlua = "*"

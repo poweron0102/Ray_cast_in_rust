@@ -1,4 +1,3 @@
-use hlua::Lua;
 use macroquad::prelude::*;
 use crate::Game;
 use crate::in_game::mine_map::MineMap;
@@ -6,10 +5,11 @@ use crate::in_game::pause_menu::PauseMenu;
 use crate::in_game::player::Player;
 use crate::in_game::ray_cast::RayCast;
 use crate::map::TilePosition;
+use rlua::prelude::*;
 
 
 mod mine_map;
-mod player;
+pub(crate) mod player;
 mod ray_cast;
 mod pause_menu;
 
@@ -31,7 +31,7 @@ pub struct InGame {
     pub player: Player,
     ray_cast: RayCast,
     pause_menu: Option<PauseMenu>,
-    pub lua_interpreter: Lua<'static>,
+    pub lua_interpreter: Lua,
     pub lua_scripts: Vec<(String, TilePosition)>
 }
 impl InGame {
