@@ -61,8 +61,10 @@ impl InGame {
             else { self.pause_menu = Some(PauseMenu::new()) }
         }
 
+
+        self.lua_scripts.clear();
         if let Some(action) = &self.map.tile_in_position(self.player.locate).step_action {
-            let full_path = "/lua/".to_string() + action;
+            let full_path = "./lua/".to_string() + action;
 
             self.lua_scripts.push((full_path, TilePosition::cord_to_tile_position(self.player.locate, vec2(0.0, 0.0))))
         }

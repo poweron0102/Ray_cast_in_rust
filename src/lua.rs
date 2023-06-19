@@ -43,8 +43,8 @@ pub fn in_game_lua() -> Lua {
 impl InGame {
     pub fn lua_execute(&mut self) {
         for (code, position) in &self.lua_scripts {
-            let script = fs::read_to_string(code).unwrap_or_else(|_|
-                panic!("Can't read the file in {code}")
+            let script = fs::read_to_string(code).unwrap_or_else(|error|
+                panic!("Can't read the file in {code} error: {error}")
             );
 
             self.lua_interpreter.context(|lua_ctx|{
@@ -59,16 +59,11 @@ impl InGame {
                     .exec()?;
                 // Main script
 
-                lua_ctx
-                    .load("print(Olá por lua!)")
-                    .set_name(code)?
-                    .exec()?;
-
                 self.player = globals.get("Player")?;
 
                 Ok::<(), LuaError>(())
-            }).unwrap_or_else(|_|
-                panic!("The file on {code} get an error when executed by tile in {position:?}.")
+            }).unwrap_or_else(|error|
+                panic!("The file on {code} get an error when executed by tile in {position:?}\n error: {error}")
             );
 
 

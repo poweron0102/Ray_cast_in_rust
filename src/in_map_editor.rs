@@ -59,7 +59,7 @@ impl InMapEditor {
                 if self.selected_tiles.contains(&tile_hover_position) {
                     self.selected_tiles.remove(&tile_hover_position);
                 } else {
-                    self.selected_tiles.insert(tile_hover_position.clone());
+                    self.selected_tiles.insert(tile_hover_position);
                 }
             }
         };
@@ -85,8 +85,8 @@ impl InMapEditor {
             //let selected_tile = self.tile_in_position(&selected_tile_position).unwrap();
             // Text draw
             let text = format!("X:{} Y:{}", selected_tile_position.x, selected_tile_position.y);
-            let text_rect = measure_text(&*text, None, 12, 1.0);
-            draw_text(&*text,
+            let text_rect = measure_text(&text, None, 12, 1.0);
+            draw_text(&text,
                       (((selected_tile_position.x as f32) + 0.5) * TILE_SIZE) - (text_rect.width/2.0) + 288.0,
                       (((selected_tile_position.y as f32) + 0.5) * TILE_SIZE) + (text_rect.height/2.0),
                       12.0,
