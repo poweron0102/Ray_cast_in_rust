@@ -1,8 +1,8 @@
-use std::cell::Ref;
+
 use macroquad::prelude::*;
 use crate::map::{Tile, WordMap};
 
-pub const Tile_size:f32 = 64.0;
+pub const TILE_SIZE:f32 = 64.0;
 const MINE_MAP_ZOON:f32 = 16.0;
 const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color: BLANK, step_action: None, look_action: None, render_action: None };
 
@@ -75,17 +75,17 @@ impl MineMap {
     }*/
 
     pub fn tile_in_position(&self, position: Vec2) -> &Tile {
-        &self.map.tile_in_position_vec2(position, Vec2::new(0.0, 0.0)).unwrap_or(&T0)
+        self.map.tile_in_position_vec2(position, Vec2::new(0.0, 0.0)).unwrap_or(&T0)
     }
 
 
     pub fn draw(&self) {
         for (row_id, row ) in self.map.as_ref().iter().enumerate() {
             for (column_id, tile) in row.iter().enumerate() {
-                draw_rectangle((column_id as f32) * Tile_size,
-                               (row_id as f32) * Tile_size,
-                               Tile_size,
-                               Tile_size,
+                draw_rectangle((column_id as f32) * TILE_SIZE,
+                               (row_id as f32) * TILE_SIZE,
+                               TILE_SIZE,
+                               TILE_SIZE,
                                tile.visible_color
                 )
             }
@@ -98,8 +98,8 @@ impl MineMap {
         let distance = vec2(20.0, 20.0);
 
         Vec2{
-            x: (point.x * MINE_MAP_ZOON / Tile_size) + distance.x,
-            y: (screen_height() - mine_map_size.y - distance.y) + (point.y * MINE_MAP_ZOON / Tile_size)
+            x: (point.x * MINE_MAP_ZOON / TILE_SIZE) + distance.x,
+            y: (screen_height() - mine_map_size.y - distance.y) + (point.y * MINE_MAP_ZOON / TILE_SIZE)
         }
     }
 

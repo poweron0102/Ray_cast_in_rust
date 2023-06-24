@@ -1,44 +1,52 @@
 use std::fs;
-use std::fs::File;
-use std::path::Path;
 use rlua::prelude::*;
 use macroquad::prelude::*;
-use rlua::{MetaMethod, UserData, UserDataMethods};
+use rlua::{Error, Value};
 use crate::in_game::InGame;
 use crate::in_game::player::Player;
 
-impl UserData for Player {
-    fn add_methods<'lua, M: UserDataMethods<'lua, Self>>(methods: &mut M) {
-        // Implement custom methods if needed
-
-        // Implement __index meta-method to allow accessing Player fields in Lua
-        methods.add_meta_method(
-            MetaMethod::Index,
-            |lua, player: &Player, field: String| {
-                match field.as_str() {
-                    "locateX" => player.locate.x.to_lua(lua),
-                    "locateY" => player.locate.y.to_lua(lua),
-                    "speed" => player.speed.to_lua(lua),
-                    "angle" => player.angle.to_lua(lua),
-                    "size" => player.size.to_lua(lua),
-                    "is_map_open" => player.is_map_open.to_lua(lua),
-                    "show_fps" => player.show_fps.to_lua(lua),
-                    "show_menu" => player.show_menu.to_lua(lua),
-                    _ => Ok(rlua::Value::Nil), // Return nil for unknown fields
-                }
-            },
-        );
+impl ToLua<'_> for Player {
+    fn to_lua(self, lua: rlua::Context<'_>) -> rlua::Result<Value> {
+        let table = lua.create_table()?;
+        table.set("locateX", self.locate.x)?;
+        table.set("locateY", self.locate.y)?;
+        table.set("speed", self.speed)?;
+        table.set("angle", self.angle)?;
+        table.set("size", self.size)?;
+        table.set("is_map_open", self.is_map_open)?;
+        table.set("show_fps", self.show_fps)?;
+        table.set("show_menu", self.show_menu)?;
+        Ok(Value::Table(table))
     }
 }
 
-pub fn in_game_lua() -> Lua {
-    let mut lua = Lua::new();
-
-    lua
+impl<'lua> FromLua<'lua> for Player {
+    fn from_lua(lua_value: Value<'lua>, _: rlua::Context<'lua>) -> rlua::Result<Self> {
+        match lua_value {
+            Value::Table(table) => {
+                let locate = Vec2{ x: table.get("locateX")?, y: table.get("locateY")? };
+                Ok(Player {
+                    locate,
+                    speed: table.get("speed")?,
+                    angle: table.get("angle")?,
+                    size: table.get("size")?,
+                    is_map_open: table.get("is_map_open")?,
+                    show_fps: table.get("show_fps")?,
+                    show_menu: table.get("show_menu")?,
+                })
+            }
+            _ => Err(Error::FromLuaConversionError {
+                from: "Value",
+                to: "Player",
+                message: Some("Expected a table".to_string()),
+            }),
+        }
+    }
 }
 
 
 
+// -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 impl InGame {
     pub fn lua_execute(&mut self) {

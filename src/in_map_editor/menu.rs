@@ -90,7 +90,6 @@ impl MapEditorMenu {
 
 
     pub fn update(in_map_editor: &mut InMapEditor, update_state: &mut Option<Box<dyn Game>>) {
-        //let SELF = &mut in_map_editor.in_mapa_editor_menu;
 
         in_map_editor.in_mapa_editor_menu.menu.update();
 

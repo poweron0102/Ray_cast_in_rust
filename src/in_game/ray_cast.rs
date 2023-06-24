@@ -7,7 +7,7 @@ use macroquad::prelude::collections::storage::get;
 use macroquad::shapes::{draw_circle, draw_line};
 use macroquad::window::screen_height;
 use crate::{_3PI2, PI2};
-use crate::in_game::mine_map::{Tile_size, MineMap};
+use crate::in_game::mine_map::{TILE_SIZE, MineMap};
 use crate::in_game::player::{normalize_angle, Player};
 
 const FOV:f32 = PI/3.0;
@@ -54,14 +54,14 @@ impl RayCast {
                 let mut rendist:usize = 0;
 
                 if angle_ray > PI { // loking up
-                    ray_y = (((playerY / Tile_size) as i32) as f32) * Tile_size - 0.0001;
+                    ray_y = (((playerY / TILE_SIZE) as i32) as f32) * TILE_SIZE - 0.0001;
                     ray_x = playerX + ((playerY - ray_y) * aTan);
-                    offset_y = -Tile_size;
+                    offset_y = -TILE_SIZE;
                     offset_x = -offset_y * aTan;
                 } else if angle_ray < PI { // loking down
-                    ray_y = (((playerY / Tile_size) as i32) as f32) * Tile_size + Tile_size;
+                    ray_y = (((playerY / TILE_SIZE) as i32) as f32) * TILE_SIZE + TILE_SIZE;
                     ray_x = playerX + ((playerY - ray_y) * aTan);
-                    offset_y = Tile_size;
+                    offset_y = TILE_SIZE;
                     offset_x = -offset_y * aTan;
                 } else {
                     ray_y = playerY;
@@ -91,14 +91,14 @@ impl RayCast {
                 let mut rendist:usize = 0;
 
                 if angle_ray < PI2 || angle_ray > _3PI2 { // loking rigth
-                    ray_x = (((playerX / Tile_size) as i32) as f32) * Tile_size + Tile_size;
+                    ray_x = (((playerX / TILE_SIZE) as i32) as f32) * TILE_SIZE + TILE_SIZE;
                     ray_y = playerY + ((playerX - ray_x) * aTan);
-                    offset_x = Tile_size;
+                    offset_x = TILE_SIZE;
                     offset_y = -offset_x * aTan;
                 } else if angle_ray > PI2 && angle_ray < _3PI2 { //loking left
-                    ray_x = (((playerX / Tile_size) as i32) as f32) * Tile_size - 0.0001;
+                    ray_x = (((playerX / TILE_SIZE) as i32) as f32) * TILE_SIZE - 0.0001;
                     ray_y = playerY + ((playerX - ray_x) * aTan);
-                    offset_x = -Tile_size;
+                    offset_x = -TILE_SIZE;
                     offset_y = -offset_x * aTan;
                 } else {
                     ray_y = playerY;
@@ -158,7 +158,7 @@ impl RayCast {
         let const_screan = 1.0;
         let screen_distance = (screen_width() / 2.0) / f32::tan(FOV2);
         for (ray_num, ray) in self.rays.iter().enumerate() {
-            let line_higth = Tile_size * screen_distance / (ray.size + 0.00001);
+            let line_higth = TILE_SIZE * screen_distance / (ray.size + 0.00001);
 
             draw_rectangle(ray_num as f32 * const_screan,
                            ((screen_width() / 2.0) - line_higth) / 2.0,

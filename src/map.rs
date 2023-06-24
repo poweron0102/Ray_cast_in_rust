@@ -6,7 +6,7 @@ use std::io::{Read};
 use std::path::Path;
 
 
-pub const Tile_size: f32 = 64.0;
+pub const TILE_SIZE: f32 = 64.0;
 
 #[derive(Debug, Copy, Clone, PartialEq, Hash, Eq, Serialize, Deserialize)]
 pub struct TilePosition {
@@ -18,8 +18,8 @@ impl TilePosition {
         let real_cord = cord - offset;
 
         TilePosition{
-            x: (real_cord.x / Tile_size) as usize,
-            y: (real_cord.y / Tile_size) as usize,
+            x: (real_cord.x / TILE_SIZE) as usize,
+            y: (real_cord.y / TILE_SIZE) as usize,
         }
     }
 }
@@ -85,10 +85,10 @@ impl WordMap {
         let file_dir = Path::new(&path_str);
 
         let mut file= "".to_string();
-        File::open(&file_dir).unwrap().read_to_string(&mut file)
+        File::open(file_dir).unwrap().read_to_string(&mut file)
             .expect(&format!("The diretory: \"{path_str}\" :"));
 
-        serde_json::from_str(&*file).unwrap()
+        serde_json::from_str(&file).unwrap()
     }
 
     pub fn tile_in_position_vec2_mut(&mut self, position: Vec2, offset: Vec2) -> Option<&mut Tile> {
