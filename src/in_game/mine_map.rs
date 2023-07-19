@@ -8,7 +8,7 @@ const T0:Tile = Tile{ is_wall: false, render: false, color: BLANK, visible_color
 
 #[derive(Debug, Clone)]
 pub struct MineMap {
-    map: WordMap
+    pub(crate) map: WordMap
 }
 impl AsRef<Vec<Vec<Tile>>> for WordMap {
     fn as_ref(&self) -> &Vec<Vec<Tile>> {
